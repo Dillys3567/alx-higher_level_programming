@@ -1,0 +1,1 @@
+-- list number of records with same score in table
