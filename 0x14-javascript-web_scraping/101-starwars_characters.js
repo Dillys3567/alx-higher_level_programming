@@ -8,14 +8,17 @@ requests.get(path + id, function(err, resp, body) {
 	else if (resp.statusCode === 200) {
 		const jsonBody = JSON.parse(body);
 		characters = jsonBody["characters"];
-		for (const i in characters) {
-			requests.get(characters[i], function(err, resp, body) {
-				if (err)
-					console.log(err);
-				else if (resp.statusCode === 200) {
-					const cha = JSON.parse(body);
-					console.log(cha.name);
-				}
-		})
+		printChars(characters, 0);
 	}
-	}});
+});
+
+function printChars(chars, index) {
+	requests(chars[index], function(err, resp, body) {
+		if (!err) {
+			console.log(JSON.parse(body).name);
+			if (index + 1 < chars.length) {
+				printChars(chars, index + 1);
+			}
+		}
+	});
+}
